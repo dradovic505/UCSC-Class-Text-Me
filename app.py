@@ -19,16 +19,21 @@ import ast
 
 app = Flask(__name__)
 
+db = UserDB()
+
 @app.route('/', methods=['GET', 'POST'])
 def index():
     if request.method == 'POST':
         user_info = request.form.to_dict()
         #escaping to prevent XSS attack
-        user_name = str(utils.escape(user_info['name']))
-        user_telegram = str(utils.escape(user_info['telegram']))
-        user_class = str(utils.escape(user_info['class']))
+        # user_name = str(utils.escape(user_info['name']))
+        # user_telegram = str(utils.escape(user_info['telegram']))
+        # user_class = str(utils.escape(user_info['class']))
+        user_info['name'] = str(utils.escape(user_info['name']))
+        user_info['telegram'] = str(utils.escape(user_info['telegram']))
+        user_info['class'] = str(utils.escape(user_info['class']))
         #put in database
-
+        db.enter_data(user_info)
         return redirect(url_for('results',user_info=user_info))
 
     return render_template('index.html')
