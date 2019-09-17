@@ -1,0 +1,79 @@
+/*
+  COLORS
+   #e7e7e7  #f04b4c   #bfbfbf   #285da8   #d4e3f7   #3d6098   #e6ffff
+   arrow in unicode: content: '\2192';
+*/
+body {
+  /* background-color: #e7e7e7; */
+  background-color: #eaf7fb;
+  font-size: 20px;
+}
+
+h1 {
+  color: #061418;
+  text-align: center;
+}
+
+h3 {
+  color: #061418;
+  text-align: center;
+}
+
+.search-option {
+  margin-left: 4%;
+  margin-bottom: 13px;
+}
+
+#select-all {
+  /* display: inline-block; */
+  width: 100%;
+  text-align: left;
+  margin-left: 4%;
+  margin-bottom: 13px;
+}
+
+input[value="Show all classes"] {
+  padding-left: 30px;
+  padding: 5px 15px;
+  background: #91d7ee;
+  border: 0 none;
+  cursor: pointer;
+  -webkit-border-radius: 5px;
+  border-radius: 5px;
+}
+
+#search {
+  width: 100%;
+  text-align: center;
+  margin-top: 20px;
+}
+
+input[value="Search"] {
+  width: 50%;
+  color: #ffffff;
+  font-size: 20px;
+  padding: 7px 15px 7px 30px;
+  background: #018bf4;
+  border: 0 none;
+  cursor: pointer;
+  -webkit-border-radius: 5px;
+  border-radius: 5px;
+}
+
+#messages {
+  width: 100%;
+  text-align: center;
+  margin-top: 20px;
+  margin-bottom: 30px;
+}
+
+input[name="messages"] {
+  color: #ffffff;
+  font-size: 20px;
+  padding: 7px 15px 7px 30px;
+  background: #018bf4;
+  border: 0 none;
+  cursor: pointer;
+  -webkit-border-radius: 5px;
+  border-radius: 5px;
+}

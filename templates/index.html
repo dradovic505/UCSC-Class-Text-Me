@@ -1,0 +1,49 @@
+<!-- <form method="POST" action="">
+  Name <input type="text" name="name"/>
+  <br>
+  Email <input type="text" name="email"/>
+  <br>
+  <input type="submit">
+</form> -->
+<!-- <h1>HTML Injection testing</h1> -->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Class Texting</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <!-- <link rel="stylesheet" href="/static/style.css"> -->
+  <!-- <script src="/static/index.js"></script> -->
+</head>
+
+<body>
+
+  <h1>UCSC Class Texting System</h1>
+
+  <h3>Recieve Telegram messages for classes of Fall 2019!</h3>
+
+  <form method="POST" action="">
+    <div class="search-option">
+      Your name:
+      <input type="text" name="name" />
+    </div>
+
+    <div class="search-option">
+      Your telegram number:
+      <input type="text" name="telegram" />
+    </div>
+
+    <div class="search-option">
+      Class name (ex: STAT 5 - 01)
+      <input type="text" name="class" />
+    </div>
+
+    <div id="search">
+      <input type="submit" name="search" value="Go!">
+    </div>
+  </form>
+
+</body>
+
+</html>
