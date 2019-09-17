@@ -5,18 +5,19 @@ from jinja2 import utils
 import ast
 #import yaml
 
+#app calls database to enter user's info and which classes he wants
+    #to get notified for.
+#every x minutes, app calls find_classes to get the seats and
+    #waitlist for each class. app calls database to get user's
+    #telegram number, uses telegram bot to send seats+waitlist for
+    #each class to the user
+
+# user_arr = [
+#             {'name':'Bob', 'telegram':'(555)-555-5555',
+#              'class_name':'STAT 5'},
+# ]
+
 app = Flask(__name__)
-
-
-#if user puts information into website, put in MongoDB database
-
-# user = {}
-# user[name] = {
-#                 'telegram':'',
-#                 'class_name':{
-#                                'available_seats':_,
-#                                'waitlist':_
-#                              }
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
@@ -31,7 +32,6 @@ def index():
         return redirect(url_for('results',user_info=user_info))
 
     return render_template('index.html')
-
 
 @app.route('/results', methods=['GET', 'POST'])
 def results():
