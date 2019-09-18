@@ -3,7 +3,8 @@
 from flask import Flask, render_template, request, redirect, escape, url_for
 from jinja2 import utils
 import ast
-#import yaml
+from db import UserDB
+from find_classes import Scraper
 
 #app calls database to enter user's info and which classes he wants
     #to get notified for.
@@ -19,22 +20,22 @@ import ast
 
 app = Flask(__name__)
 
-db = UserDB()
+dbase = UserDB()
+scraper = Scraper()
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
     if request.method == 'POST':
         user_info = request.form.to_dict()
+
         #escaping to prevent XSS attack
-        # user_name = str(utils.escape(user_info['name']))
-        # user_telegram = str(utils.escape(user_info['telegram']))
-        # user_class = str(utils.escape(user_info['class']))
-        user_info['name'] = str(utils.escape(user_info['name']))
-        user_info['telegram'] = str(utils.escape(user_info['telegram']))
-        user_info['class'] = str(utils.escape(user_info['class']))
-        #put in database
-        db.enter_data(user_info)
-        return redirect(url_for('results',user_info=user_info))
+        new_name = str(utils.escape(user_info['name']))
+        new_telegram = str(utils.escape(user_info['telegram']))
+        new_class = str(utils.escape(user_info['class']))
+        new_user = {'name':new_name, 'telegram':new_telegram, 'class':new_class}
+
+        dbase.enter_data(user_info)
+        return redirect(url_for('results',user_info=new_user))
 
     return render_template('index.html')
 
@@ -45,13 +46,21 @@ def results():
     user_info = ast.literal_eval(user)
 
     if request.method == 'POST':
-        if form['home'] == "Home":
+        if request.form['home'] == "Home":
             return redirect('/')
 
     if user_info:
+        get_class_info()
         return render_template('results.html', user_info=user_info)
 
     return render_template('results.html')
+
+def get_class_info():
+    #for all people in database, find the class info
+    user = dbase.return_data('Bob Dylan')
+    d = scraper.find_info(user['class'])
+    print(d)
+    scraper.close_browser()
 
 if __name__ == '__main__':
     app.run(debug=True)
