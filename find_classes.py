@@ -1,5 +1,4 @@
 #Python3
-#source env/bin/activate
 import math, requests, time, mysql.connector
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys

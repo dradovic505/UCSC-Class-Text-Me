@@ -1,18 +1,15 @@
-<!DOCTYPE html>
-<html>
+{% extends 'base.html' %}
 
-<head>
-  <title>Class Texting</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+{% block header %}
+  <h1>{% block title %}Class Texting{% endblock %}</h1>
   <!-- <link rel="stylesheet" href="/static/style.css"> -->
   <!-- <script src="/static/index.js"></script> -->
-</head>
+{% endblock %}
 
-<body>
+{% block content %}
+<h1>UCSC Class Texting System</h1>
 
-  <h1>UCSC Class Texting System</h1>
-
-  <h3>Recieve Telegram messages for classes of Fall 2019!</h3>
+<h3>Recieve Telegram messages for classes of Fall 2019!</h3>
 
   <form method="POST" action="">
     <div class="search-option">
@@ -21,7 +18,7 @@
     </div>
 
     <div class="search-option">
-      Your telegram number in format: (xxx)-xxx-xxxx:
+      Your telegram number in format: xxx-xxx-xxxx:
       <input type="text" name="telegram" />
     </div>
 
@@ -35,6 +32,4 @@
     </div>
   </form>
 
-</body>
-
-</html>
+{% endblock %}
