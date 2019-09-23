@@ -13,10 +13,17 @@ class UserDB:
     #enter user info into db
     def enter_data(self, u):
         phone = u['phone']
-        same_phone = self.my_table.find({'phone':phone})
+        same_phone = self.my_table.find_one({'phone':phone})
+        # same_phone = self.my_table.find({'phone':phone})
 
         if not same_phone:
+            print('query entered')
             self.my_table.insert_one(u)
+
+        for x in self.my_table.find():
+            print(x)
+
+
 
     def add_user_id(self, phone, user_id):
         self.my_table.update({'phone':phone}, {'user_id':user_id})
@@ -33,3 +40,7 @@ class UserDB:
                 user_dict['user_id'] = user['user_id']
                 user_dict['class'] = user['class']
         return user_dict
+
+    def print_db(self):
+        for x in self.my_table.find():
+            print(x)

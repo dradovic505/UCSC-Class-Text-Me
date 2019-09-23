@@ -1,9 +1,9 @@
 {% extends 'base.html' %}
 
 {% block header %}
-  <h1>{% block title %}Class Texting{% endblock %}</h1>
-  <!-- <link rel="stylesheet" href="/static/style.css"> -->
-  <!-- <script src="/static/index.js"></script> -->
+<h1>{% block title %}Class Texting{% endblock %}</h1>
+<!-- <link rel="stylesheet" href="/static/style.css"> -->
+<!-- <script src="/static/index.js"></script> -->
 {% endblock %}
 
 {% block content %}
@@ -11,25 +11,25 @@
 
 <h3>Recieve Telegram messages for classes of Fall 2019!</h3>
 
-  <form method="POST" action="">
-    <div class="search-option">
-      Your name:
-      <input type="text" name="name" />
-    </div>
+<form method="POST" action="">
+  <div class="search-option">
+    Your name:
+    <input type="text" name="name" />
+  </div>
 
-    <div class="search-option">
-      Your telegram number in format: xxx-xxx-xxxx:
-      <input type="text" name="telegram" />
-    </div>
+  <div class="search-option">
+    Your telegram number in format: xxx-xxx-xxxx:
+    <input type="text" name="phone" />
+  </div>
 
-    <div class="search-option">
-      Class name (ex: STAT 5 - 01)
-      <input type="text" name="class" />
-    </div>
+  <div class="search-option">
+    Class name (ex: STAT 5 - 01)
+    <input type="text" name="class" />
+  </div>
 
-    <div id="search">
-      <input type="submit" name="search" value="Go!">
-    </div>
-  </form>
+  <div id="search">
+    <input type="submit" name="search" value="Go!">
+  </div>
+</form>
 
 {% endblock %}

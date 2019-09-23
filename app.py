@@ -23,7 +23,7 @@ def index():
         new_class = str(utils.escape(user_info['class']))
         new_user = {'name':new_phone, 'telegram':new_phone, 'user_id':-1,
                     'send_messages':True, 'class':new_class}
-        dbase.enter_data(user_info)
+        dbase.enter_data(new_user)
         return redirect(url_for('unverifiedUser',user_info=new_user))
 
     return render_template('index.html')
@@ -33,18 +33,22 @@ def unverifiedUser():
     # d = request.args.to_dict()
     # user = d['user_info']
     # user_info = ast.literal_eval(user)
-
+    print('here1')
+    dbase.print_db()
+    print('here2')
     if request.method == 'POST':
         if request.form['home'] == "Home":
             return redirect('/')
-    send_messages()
+    # send_messages()
     return render_template('unverifiedUser.html')
 
 def access_bot(user):
     class_info = scraper.find_info(user['class'])
-    scraper.close_browser()
+    # scraper.close_browser()
     #send class_info to user as a telegram message
-    if class_info[2] == '0':
+    print(class_info)
+    # if class_info[2] == -1:
+    #     print('not verified')
         # bot.class_full(user['class'])
     return class_info
 
