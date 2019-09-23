@@ -17,7 +17,6 @@ class UserDB:
         self.my_db = self.my_client[self.db_name]
         self.my_table = self.my_db['users']
 
-    #enter user info into db
     def enter_data(self, u):
         phone = u['phone']
         same_phone = self.my_table.find_one({'phone':phone})
