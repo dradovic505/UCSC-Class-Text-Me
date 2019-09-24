@@ -12,8 +12,23 @@ updater = Updater(token=my_token['my_telegram_token'], use_context=True)
 dispatcher = updater.dispatcher
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
 
+##########start class#############
+class TelegramBot:
+    def class_full(update, context):
+        full = ('{} is full!'.format(class_name))
+        context.bot.send_message(chat_id=update.message.chat_id, text=full)
+
+    class_full_handler = MessageHandler(Filters.text,class_full)
+    dispatcher.add_handler(class_full_handler)
+##########end class#############
+
+
 def start(update,context):
-    context.bot.send_message(chat_id=update.message.chat_id, text="Hi! A list of commands: \n /verifyMe (you must do this one) \n /stopNotifs (I will stop sending you messages about your classes) \n /restartNotifs (I will send you messages about your classes again) \n /deleteMyData (All your data will be deleted)")
+    context.bot.send_message(chat_id=update.message.chat_id,
+    text="Hi! A list of commands: \n /verifyMe (you must do this one)     \
+    \n /stopNotifs (I will stop sending you messages about your classes)  \
+    \n /restartNotifs (I will send you messages about your classes again) \
+    \n /deleteMyData (All your data will be deleted)")
 
 start_handler = CommandHandler('start', start)
 dispatcher.add_handler(start_handler)
@@ -42,11 +57,8 @@ contact_handler = MessageHandler(Filters.contact, contact)
 dispatcher.add_handler(contact_handler)
 
 def class_full(update, context):
-    #either call check_classes.py function and figure out here whether to message
-    #the user or not, OR make this function be called within check_classes.py...
     full = ('{} is full!'.format(class_name))
-    context.bot.send_message(chat_id=update.message.chat_id,
-    text=full)
+    context.bot.send_message(chat_id=update.message.chat_id, text=full)
 
 class_full_handler = MessageHandler(Filters.text,echo)
 dispatcher.add_handler(class_full_handler)
