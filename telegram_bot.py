@@ -1,9 +1,14 @@
 # t.me/ClassTextBot
+# https://github.com/python-telegram-bot/python-telegram-bot/blob/master/examples/timerbot.py
+# https://python-telegram-bot.readthedocs.io/en/stable/telegram.ext.jobqueue.html?highlight=run_once
+# mongod --config /usr/local/etc/mongod.conf
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
 import logging, yaml, telegram
+from find_classes import Scraper
 from db import UserDB
 
 dbase = UserDB()
+scraper = Scraper()
 
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
 
@@ -25,10 +30,40 @@ def contact(update, context):
     phone_number = update.message.contact.phone_number
     user_id = update.message.contact.user_id
     dbase.add_user_id(phone_number, user_id)
+    context.bot.sendMessage(chat_id=update.message.chat_id, text='Thanks, you\'re verified! Now type /begin to start getting class updates.')
 
-def class_full(update, context):
-    full = ('{} is full!'.format(class_name))
-    context.bot.send_message(chat_id=update.message.chat_id, text=full)
+def check_class(context):
+    #context is update.message
+    #THIS DOESN'T WORK: AttributeError: 'CallbackContext' object has no attribute 'chat_id'
+    job = context.chat_id.job       #update.message.chat_id
+
+    #need user_id to get the user from the DB
+
+    # user_id = update.message.contact.user_id
+    user_id = context.contact.user_id
+    user = dbase.get_user(user_id)
+    print(user)
+    print(type(user))
+    print(user['class'])
+
+    class_info = scraper.find_info(user['class'])
+    available_seats = class_info[2]
+    wait_list_total = class_info[3]
+    if available_seats <= 0:
+        # context.bot.send_message(job.context, text='The class is full!')
+        context.chat_id.bot.send_message(job.context, text='The class is full!')
+    if wait_list_total <= 0:
+        # context.bot.send_message(job.context, text='Waitlist is empty!')
+        context.chat_id.bot.send_message(job.context, text='The class is full!')
+
+def begin(update, context):
+    # chat_id = update.message.chat_id
+    chat_id = update.message
+    if 'job' in context.chat_data:
+        old_job = context.chat_data['job']
+        old_job.schedule_removal()
+    new_job = context.job_queue.run_repeating(check_class, 9, context=chat_id) #900 sec = 15 min
+    context.chat_data['job'] = new_job
 
 def unknown(update, context):
     context.bot.send_message(chat_id=update.message.chat_id, text="Sorry, I don't know that command")
@@ -38,7 +73,6 @@ def main():
     updater = Updater(token=my_token['my_telegram_token'], use_context=True)
     dispatcher = updater.dispatcher
     
-
     #handlers
     start_handler = CommandHandler('start', start)
     dispatcher.add_handler(start_handler)
@@ -51,9 +85,6 @@ def main():
 
     contact_handler = MessageHandler(Filters.contact, contact)
     dispatcher.add_handler(contact_handler)
-
-    class_full_handler = MessageHandler(Filters.text,class_full)
-    dispatcher.add_handler(class_full_handler)
 
     unknown_handler = MessageHandler(Filters.command, unknown)
     dispatcher.add_handler(unknown_handler)

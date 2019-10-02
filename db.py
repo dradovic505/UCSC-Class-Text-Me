@@ -43,6 +43,13 @@ class UserDB:
             user_arr.append(user_dict)
         return user_arr
 
+    def get_user(self, user_id):
+        user = self.my_table.find_one({'user_id':user_id})
+        print(user)
+        print(type(user))
+        return user
+        
+
     def print_db(self):
         for x in self.my_table.find():
             print(x)
