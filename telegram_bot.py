@@ -33,36 +33,47 @@ def contact(update, context):
     context.bot.sendMessage(chat_id=update.message.chat_id, text='Thanks, you\'re verified! Now type /begin to start getting class updates.')
 
 def check_class(context):
-    #context is update.message
-    #THIS DOESN'T WORK: AttributeError: 'CallbackContext' object has no attribute 'chat_id'
-    job = context.chat_id.job       #update.message.chat_id
+    #context is update.message.chat_id
+    job = context.job
 
-    #need user_id to get the user from the DB
+    user = context.contact.user_id
+    # user = context.message.contact.user_id
+    print(user_id)
+    # class_info = scraper.find_info(user['class'])
+    # available_seats = class_info[2]
+    # wait_list_total = class_info[3]
+    # if available_seats <= 0:
+    #     context.bot.send_message(job.context, text='The class is full!')
+
+def check_class2(context):
+    #context[0] is update.message, context[1] is update.message.contact.user_id
+    job = context[0].job
 
     # user_id = update.message.contact.user_id
-    user_id = context.contact.user_id
+    user_id = context[1]
+    print(user_id)
     user = dbase.get_user(user_id)
     print(user)
-    print(type(user))
-    print(user['class'])
 
-    class_info = scraper.find_info(user['class'])
-    available_seats = class_info[2]
-    wait_list_total = class_info[3]
-    if available_seats <= 0:
-        # context.bot.send_message(job.context, text='The class is full!')
-        context.chat_id.bot.send_message(job.context, text='The class is full!')
-    if wait_list_total <= 0:
-        # context.bot.send_message(job.context, text='Waitlist is empty!')
-        context.chat_id.bot.send_message(job.context, text='The class is full!')
+    # class_info = scraper.find_info(user['class'])
+    # available_seats = class_info[2]
+    # wait_list_total = class_info[3]
+    # if available_seats <= 0:
+    #     context[0].bot.send_message(job.context, text='The class is full!')
+    # else:
+    #     context[0].bot.send_message(job.context, text='You\'re good!')
+    # if wait_list_total <= 0:
+    #     context[0].chat_id.bot.send_message(job.context, text='The class is full!')
 
 def begin(update, context):
     # chat_id = update.message.chat_id
-    chat_id = update.message
+    # chat_id = update.message
+    # chat_user_id = update.message.contact.user_id
     if 'job' in context.chat_data:
         old_job = context.chat_data['job']
         old_job.schedule_removal()
     new_job = context.job_queue.run_repeating(check_class, 9, context=chat_id) #900 sec = 15 min
+    # new_job = context.job_queue.run_repeating(check_class2, 9, context=(chat_id,chat_user_id)) #900 sec = 15 min
     context.chat_data['job'] = new_job
 
 def unknown(update, context):

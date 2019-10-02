@@ -1,4 +1,3 @@
-#Python3
 from flask import Flask, render_template, request, redirect, escape, url_for
 from jinja2 import utils
 import ast, schedule, time, threading
