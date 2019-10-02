@@ -2,6 +2,7 @@ from db import UserDB
 from find_classes import Scraper
 from telegram_bot import TelegramBot
 import schedule, time, threading
+from telegram_bot import dispatcher
 
 dbase = UserDB()
 scraper = Scraper()
