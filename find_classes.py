@@ -7,6 +7,7 @@ class Scraper:
 
     def __init__(self):
         self.browser = webdriver.Firefox()
+        self.browser.get('https://pisa.ucsc.edu/class_search/index.php')
 
     #term: Fall 2019
     def handle_initial_page(self, class_name, class_num):
@@ -27,6 +28,8 @@ class Scraper:
     def handle_class(self):
         subject = self.browser.find_element_by_xpath('/html/body/div[3]/div[2]/div[1]/div/h2').text
         available_seats = self.browser.find_element_by_xpath('/html/body/div[3]/div[2]/div[3]/div[1]/div[2]/div/div[2]/dl/dd[2]').text
+        go_back = self.browser.find_element_by_xpath('/html/body/div[3]/div[2]/div[2]/div[1]/a[2]')
+        go_back.click()
         return [subject, int(available_seats)]
 
     def handle_page(self):
@@ -35,8 +38,7 @@ class Scraper:
         click_class.click()
         return self.handle_class()
 
-    def find_info(self, name_and_num):
-        self.browser.get('https://pisa.ucsc.edu/class_search/index.php')
+    def find_info(self, name_and_num):        
         full_name = name_and_num[:name_and_num.find(' - ')].split()
         class_name = full_name[0]
         num = full_name[1]

@@ -3,7 +3,14 @@ from jinja2 import utils
 import ast, schedule, time, threading
 from db import UserDB
 
-# database structure = [{'name':'', 'telegram':'', 'class_name':''}]
+# database structure = [{'name':str, 
+#                        'phone':int,
+#                        'user_id':int, 
+#                        'class_list':[
+#                            {'class_name':str, 
+#                             'previously_open':Bool
+#                             }]
+#                       }]
 
 app = Flask(__name__)
 dbase = UserDB()
@@ -18,8 +25,10 @@ def index():
         new_phone = inputted_phone.split('-')
         new_phone = '1' + ''.join(new_phone)
         new_class = str(utils.escape(user_info['class']))
-        new_user = {'name':new_name, 'phone':new_phone, 'user_id':-1,
-                    'send_messages':True, 'class':new_class}
+        new_user = {'name':new_name, 
+                    'phone':new_phone,
+                    'user_id':-1, 
+                    'class_list':[{'class_name':new_class, 'previously_open':False}]}
         dbase.enter_data(new_user)
         return redirect(url_for('unverifiedUser',user_info=new_user))
 
@@ -33,6 +42,7 @@ def unverifiedUser():
     if request.method == 'POST':
         if request.form['home'] == "Home":
             return redirect('/')
+
     return render_template('unverifiedUser.html')
 
 if __name__ == '__main__':
