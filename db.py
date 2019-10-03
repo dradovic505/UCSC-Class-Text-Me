@@ -30,26 +30,10 @@ class UserDB:
         new_id = { "$set": { "user_id": user_id } }
         self.my_table.update_one(user_phone, new_id)
 
-    #returns all user data for verified users who still want messages
-    def return_all_verified_data(self):
-        user_arr = []
-        for user in self.my_table.find():
-            user_dict = {}
-            if user['user_id'] != -1 and user['send_messages']:
-                user_dict['name'] = user['name']
-                user_dict['phone'] = user['phone']
-                user_dict['user_id'] = user['user_id']
-                user_dict['class'] = user['class']
-            user_arr.append(user_dict)
-        return user_arr
-
     def get_user(self, user_id):
         user = self.my_table.find_one({'user_id':user_id})
-        print(user)
-        print(type(user))
         return user
         
-
     def print_db(self):
         for x in self.my_table.find():
             print(x)
