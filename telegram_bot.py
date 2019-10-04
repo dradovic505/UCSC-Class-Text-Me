@@ -36,8 +36,6 @@ def check_classes(context):
         elif available_seats > 0 and not c['previously_open']:
             dbase.set_availability(job.context, c['class_name'], True)
             context.bot.send_message(job.context, text='{0} has an open spot!'.format(c['class_name']))
-    print('boi boi')
-    dbase.print_db()
     scraper.close_browser()
 
 def begin(update, context):

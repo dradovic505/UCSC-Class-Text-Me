@@ -1,4 +1,4 @@
-import math, requests, time, mysql.connector
+import math, requests, time
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 import yaml

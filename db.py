@@ -46,8 +46,6 @@ class UserDB:
                 new_class_list.append(new_class_availability)
         new_availability = { '$set': { 'class_list' : new_class_list } }
         self.my_table.update_one({'user_id':user_id}, new_availability)
-        print('hello there')
-        print(self.my_table.find_one({'user_id':user_id}))
         
     def print_db(self):
         for x in self.my_table.find():
