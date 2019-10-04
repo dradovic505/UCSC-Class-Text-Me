@@ -1,16 +1,6 @@
 from flask import Flask, render_template, request, redirect, escape, url_for
 from jinja2 import utils
-import ast, schedule, time, threading
 from db import UserDB
-
-# database structure = [{'name':str, 
-#                        'phone':int,
-#                        'user_id':int, 
-#                        'class_list':[
-#                            {'class_name':str, 
-#                             'previously_open':Bool
-#                             }]
-#                       }]
 
 app = Flask(__name__)
 dbase = UserDB()
@@ -36,9 +26,6 @@ def index():
 
 @app.route('/unverifiedUser', methods=['GET', 'POST'])
 def unverifiedUser():
-    # d = request.args.to_dict()
-    # user = d['user_info']
-    # user_info = ast.literal_eval(user)
     if request.method == 'POST':
         if request.form['home'] == "Home":
             return redirect('/')
